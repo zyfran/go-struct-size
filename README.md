@@ -1,6 +1,3 @@
-[![coverage report](https://gitlab.com/zyfran/go-struct-size/badges/master/coverage.svg)](https://gitlab.com/zyfran/go-struct-size/commits/master)
-[![pipeline status](https://gitlab.com/zyfran/go-struct-size/badges/master/pipeline.svg)](https://gitlab.com/zyfran/go-struct-size/commits/master)
-
 #### Description
 
 #### Requirements
