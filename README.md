@@ -5,7 +5,7 @@
 
 #### Installation
 ```bash
-go get gitlab.com/zyfran/go-struct-size
+$ go get gitlab.com/zyfran/go-struct-size
 ```
 
 #### Usage
