@@ -1,8 +1,22 @@
+.unit.test.script: &script_simple
+  only:
+  - branches
+  script:
+    go test -v
+
 .unit.test.script.cover: &script
   only:
   - branches
   script:
     go test -cover -v
+
+unit.test go.1.2:
+  image: golang:1.2
+  <<: *script_simple
+
+unit.test go.1.3:
+  image: golang:1.3
+  <<: *script_simple
 
 unit.test go.1.4:
   image: golang:1.4-alpine
