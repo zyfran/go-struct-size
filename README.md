@@ -18,18 +18,21 @@ type (
 		myBool  bool    // 1 byte
 		myFloat float64 // 8 bytes
 		myInt   int32   // 4 bytes
+		Int     int16   // 2 bytes
 	}
 
 	myStructOptimized1 struct {
 		myFloat float64 // 8 bytes
-		myBool  bool    // 1 byte
 		myInt   int32   // 4 bytes
+		Int     int16   // 2 bytes
+		myBool  bool    // 1 byte
 	}
 
 	myStructOptimized2 struct {
 		myFloat float64 // 8 bytes
 		myInt   int32   // 4 bytes
 		myBool  bool    // 1 byte
+		Int     int16   // 2 bytes
 	}
 )
 
@@ -49,15 +52,23 @@ import (
 )
 
 func TestStructures(t *testing.T) {
-	t.Logf(
-		`
+	items := [...]interface{}{
+		myStruct{},
+		myStructOptimized1{},
+		myStructOptimized2{},
+	}
+
+	for _, item := range items {
+		if current, best, optimal := struct_size.CheckSize(item); !optimal {
+			t.Errorf(
+				`Structure can be optimized from %d to %d bytes
 %s`,
-		struct_size.Visualize(
-			myStruct{},
-			myStructOptimized1{},
-			myStructOptimized2{},
-		),
-	)
+				current,
+				best,
+				struct_size.Visualize(item),
+			)
+		}
+	}
 }
 ```
 
@@ -66,21 +77,13 @@ func TestStructures(t *testing.T) {
 $ GOOS=linux GOARCH=amd64 go test -v
 ```
 ```text
-=== RUN   TestStructures
---- PASS: TestStructures (0.00s)
-    main_test.go:9:
+--- FAIL: TestStructures (0.00s)
+    main_test.go:18: Structure can be optimized from 24 to 16 bytes
         sizeof(main.myStruct)=24
             myBool  bool    [x][ ][ ][ ][ ][ ][ ][ ]
             myFloat float64 [x][x][x][x][x][x][x][x]
-            myInt   int32   [x][x][x][x][ ][ ][ ][ ]
-        sizeof(main.myStructOptimized1)=16
-            myFloat float64 [x][x][x][x][x][x][x][x]
-            myBool  bool    [x][ ][ ][ ]
-            myInt   int32               [x][x][x][x]
-        sizeof(main.myStructOptimized2)=16
-            myFloat float64 [x][x][x][x][x][x][x][x]
             myInt   int32   [x][x][x][x]
-            myBool  bool                [x][ ][ ][ ]
+            Int     int16               [x][x][ ][ ]
 ```
 ##### Check structures for 32-bit OS
 ```bash
@@ -88,21 +91,12 @@ $ GOOS=linux GOARCH=386 go test -v
 ```
 ```text
 === RUN   TestStructures
---- PASS: TestStructures (0.00s)
-    main_test.go:9:
-        sizeof(main.myStruct)=16
+--- FAIL: TestStructures (0.00s)
+    main_test.go:18: Structure can be optimized from 20 to 16 bytes
+        sizeof(main.myStruct)=20
             myBool  bool    [x][ ][ ][ ]
             myFloat float64 [x][x][x][x]
                             [x][x][x][x]
             myInt   int32   [x][x][x][x]
-        sizeof(main.myStructOptimized1)=16
-            myFloat float64 [x][x][x][x]
-                            [x][x][x][x]
-            myBool  bool    [x][ ][ ][ ]
-            myInt   int32   [x][x][x][x]
-        sizeof(main.myStructOptimized2)=16
-            myFloat float64 [x][x][x][x]
-                            [x][x][x][x]
-            myInt   int32   [x][x][x][x]
-            myBool  bool    [x][ ][ ][ ]
+            Int     int16   [x][x][ ][ ]
 ```
