@@ -59,12 +59,12 @@ func TestStructures(t *testing.T) {
 	}
 
 	for _, item := range items {
-		if current, best, optimal := struct_size.CheckSize(item); !optimal {
+		if currentSize, optimalSize, ok := struct_size.CheckSize(item); !ok {
 			t.Errorf(
 				`Structure can be optimized from %d to %d bytes
 %s`,
-				current,
-				best,
+				currentSize,
+				optimalSize,
 				struct_size.Visualize(item),
 			)
 		}
