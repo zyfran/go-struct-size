@@ -20,6 +20,15 @@ func TestCheck(t *testing.T) {
 		{Interface: myStruct{}, InterfaceSize: 24, OptimalSize: 16, Optimal: false},
 		{Interface: myStructOptimized1{}, InterfaceSize: 16, OptimalSize: 16, Optimal: true},
 		{Interface: myStructOptimized2{}, InterfaceSize: 16, OptimalSize: 16, Optimal: true},
+		{Interface: struct {
+			a uint8
+			b bool
+		}{}, InterfaceSize: 2, OptimalSize: 2, Optimal: true},
+		{Interface: struct {
+			a bool
+			b float64
+			c int32
+		}{}, InterfaceSize: 24, OptimalSize: 16, Optimal: false},
 	}
 
 	for _, item := range items {

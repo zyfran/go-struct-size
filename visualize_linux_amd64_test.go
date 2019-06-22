@@ -70,6 +70,13 @@ func TestVisualize(t *testing.T) {
     myBool  bool                [x][ ]
     Int     int16                     [x][x]
 `)},
+		{Interface: struct {
+			a uint8
+			b bool
+		}{}, Result: []byte(`sizeof(struct { a uint8; b bool })=2
+    a uint8 [x]
+    b bool     [x]
+`)},
 	}
 
 	for _, item := range items {

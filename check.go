@@ -28,7 +28,7 @@ func CheckSize(item interface{}) (uint, uint, bool) {
 		bestSize += field.Type.Size()
 	}
 
-	if bestSize%ptr != 0 {
+	if bestSize > ptr && bestSize%ptr != 0 {
 		size := bestSize / ptr
 		size++
 		bestSize = size * ptr
