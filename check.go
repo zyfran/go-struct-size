@@ -24,11 +24,10 @@ func CheckSize(item interface{}) (uint, uint, bool) {
 	numFields := t.NumField()
 	for i := 0; i < numFields; i++ {
 		field := t.Field(i)
-
 		bestSize += field.Type.Size()
 	}
 
-	if bestSize%ptr != 0 {
+	if bestSize > ptr && bestSize%ptr != 0 {
 		size := bestSize / ptr
 		size++
 		bestSize = size * ptr
