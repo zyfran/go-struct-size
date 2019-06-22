@@ -24,7 +24,6 @@ func CheckSize(item interface{}) (uint, uint, bool) {
 	numFields := t.NumField()
 	for i := 0; i < numFields; i++ {
 		field := t.Field(i)
-
 		bestSize += field.Type.Size()
 	}
 
