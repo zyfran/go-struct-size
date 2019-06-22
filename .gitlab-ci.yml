@@ -4,7 +4,7 @@
       - branches
     changes:
       - .gitlab-ci.yml
-      - ./*.go
+      - '*.go'
   before_script:
     - go version
     - go env
