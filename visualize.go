@@ -29,6 +29,10 @@ func Visualize(items ...interface{}) (result []byte) {
 		result = append(result, t.String()...)
 		result = append(result, ")="...)
 		result = append(result, strconv.Itoa(int(t.Size()))...)
+		if t.Kind() == reflect.Struct {
+			result = append(result, " with alignment="...)
+			result = append(result, strconv.Itoa(t.Align())...)
+		}
 		result = append(result, '\n')
 
 		if t.Kind() != reflect.Struct {
@@ -83,16 +87,16 @@ func Visualize(items ...interface{}) (result []byte) {
 				result = append(result, ' ')
 			}
 
-			if field.Offset%ptr != 0 {
-				i := row
-				for ; i%ptr != 0; i-- {
+			if int(field.Offset)%t.Align() != 0 {
+				i := int(row)
+				for ; i%t.Align() != 0; i-- {
 					result = append(result, skip...)
 				}
 			}
 
 			length := field.Offset + field.Type.Size()
 			for i := field.Offset; i < length; i++ {
-				if row%ptr == 0 && i != field.Offset {
+				if int(row)%t.Align() == 0 && i != field.Offset {
 					result = append(result, '\n', ' ', ' ', ' ', ' ')
 					for i := 2; i < newRowLength; i++ {
 						result = append(result, ' ')

@@ -79,7 +79,7 @@ $ GOOS=linux GOARCH=amd64 go test -v
 ```text
 --- FAIL: TestStructures (0.00s)
     main_test.go:18: Structure can be optimized from 24 to 16 bytes
-        sizeof(main.myStruct)=24
+        sizeof(main.myStruct)=24 with alignment=8
             myBool  bool    [x][ ][ ][ ][ ][ ][ ][ ]
             myFloat float64 [x][x][x][x][x][x][x][x]
             myInt   int32   [x][x][x][x]

@@ -24,6 +24,30 @@ func TestCheck(t *testing.T) {
 			a uint8
 			b bool
 		}{}, InterfaceSize: 2, OptimalSize: 2, Optimal: true},
+		{Interface: struct {
+			a string
+			b struct {
+				a uint8
+				b bool
+				c bool
+				d bool
+				e bool
+				f bool
+				g bool
+			}
+			c int16
+		}{}, InterfaceSize: 20, OptimalSize: 20, Optimal: true},
+		{Interface: struct {
+			a string
+			b struct {
+				a uint8
+				b bool
+				c bool
+				d bool
+				e bool
+			}
+			c int16
+		}{}, InterfaceSize: 16, OptimalSize: 16, Optimal: true},
 	}
 
 	for _, item := range items {

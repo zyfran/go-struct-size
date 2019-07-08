@@ -19,18 +19,18 @@ func CheckSize(item interface{}) (uint, uint, bool) {
 		return currentSize, currentSize, true
 	}
 
-	var bestSize uintptr
+	var bestSize int
 
 	numFields := t.NumField()
 	for i := 0; i < numFields; i++ {
 		field := t.Field(i)
-		bestSize += field.Type.Size()
+		bestSize += int(field.Type.Size())
 	}
 
-	if bestSize > ptr && bestSize%ptr != 0 {
-		size := bestSize / ptr
+	if bestSize%t.Align() != 0 {
+		size := bestSize / t.Align()
 		size++
-		bestSize = size * ptr
+		bestSize = size * t.Align()
 	}
 
 	return currentSize, uint(bestSize), currentSize == uint(bestSize)
