@@ -59,12 +59,12 @@ func TestStructures(t *testing.T) {
 	}
 
 	for _, item := range items {
-		if current, best, optimal := struct_size.CheckSize(item); !optimal {
+		if currentSize, optimalSize, ok := struct_size.CheckSize(item); !ok {
 			t.Errorf(
 				`Structure can be optimized from %d to %d bytes
 %s`,
-				current,
-				best,
+				currentSize,
+				optimalSize,
 				struct_size.Visualize(item),
 			)
 		}
@@ -79,7 +79,7 @@ $ GOOS=linux GOARCH=amd64 go test -v
 ```text
 --- FAIL: TestStructures (0.00s)
     main_test.go:18: Structure can be optimized from 24 to 16 bytes
-        sizeof(main.myStruct)=24
+        sizeof(main.myStruct)=24 with alignment=8
             myBool  bool    [x][ ][ ][ ][ ][ ][ ][ ]
             myFloat float64 [x][x][x][x][x][x][x][x]
             myInt   int32   [x][x][x][x]
