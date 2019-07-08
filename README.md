@@ -93,7 +93,7 @@ $ GOOS=linux GOARCH=386 go test -v
 === RUN   TestStructures
 --- FAIL: TestStructures (0.00s)
     main_test.go:18: Structure can be optimized from 20 to 16 bytes
-        sizeof(main.myStruct)=20
+        sizeof(main.myStruct)=20 with alignment=4
             myBool  bool    [x][ ][ ][ ]
             myFloat float64 [x][x][x][x]
                             [x][x][x][x]
