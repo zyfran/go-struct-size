@@ -4,7 +4,7 @@
       - branches
     changes:
       - .gitlab-ci.yml
-      - './**/*.go'
+      - '**/*.go'
   before_script:
     - go version
     - go env
@@ -21,11 +21,11 @@
 
 .unit.test.script: &script
   script:
-    - GOOS=${VGOOS} GOARCH=${VGOARCH} go test -v
+    - GOOS=${VGOOS} GOARCH=${VGOARCH} go test -v -bench . -benchmem ./...
 
 .unit.test.script.cover: &script_cover
   script:
-    - GOOS=${VGOOS} GOARCH=${VGOARCH} go test -cover -v
+    - GOOS=${VGOOS} GOARCH=${VGOARCH} go test -v -cover -bench . -benchmem ./...
 
 go.1.2 unit.test 1/2:
   <<: [*global, *script, *amd64]
@@ -124,3 +124,19 @@ go.1.12 unit.test 1/2:
 go.1.12 unit.test 2/2:
   <<: [*global, *script_cover, *i386]
   image: golang:1.12-alpine
+
+go.1.13 unit.test 1/2:
+  <<: [*global, *script_cover, *amd64]
+  image: golang:1.13-alpine
+
+go.1.13 unit.test 2/2:
+  <<: [*global, *script_cover, *i386]
+  image: golang:1.13-alpine
+
+go.1.14 unit.test 1/2:
+  <<: [*global, *script_cover, *amd64]
+  image: golang:1.14-alpine
+
+go.1.14 unit.test 2/2:
+  <<: [*global, *script_cover, *i386]
+  image: golang:1.14-alpine
