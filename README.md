@@ -1,4 +1,5 @@
 #### Description
+Repository moved to [https://gitlab.com/zyfran/sizeof]()
 
 #### Requirements
 - go version `1.2.0+`
